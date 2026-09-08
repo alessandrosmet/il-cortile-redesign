@@ -57,23 +57,65 @@ updateLogoPosition();
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
+      const section = entry.target;
+      section.classList.add('is-visible');
+      section.addEventListener('transitionend', () => {
+        section.style.willChange = 'auto';
+      }, { once: true });
+      revealObserver.unobserve(section);
     }
   });
 }, { threshold: 0.16 });
 
 document.querySelectorAll('.section-reveal').forEach((section) => revealObserver.observe(section));
 
+let glowTargetX = window.innerWidth / 2;
+let glowTargetY = window.innerHeight / 2;
+let glowX = glowTargetX;
+let glowY = glowTargetY;
+let glowRafId = null;
+
+function animateGlow() {
+  glowX = lerp(glowX, glowTargetX, 0.14);
+  glowY = lerp(glowY, glowTargetY, 0.14);
+  cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%)`;
+
+  if (Math.abs(glowTargetX - glowX) > 0.1 || Math.abs(glowTargetY - glowY) > 0.1) {
+    glowRafId = requestAnimationFrame(animateGlow);
+  } else {
+    glowRafId = null;
+  }
+}
+
 window.addEventListener('mousemove', (event) => {
   if (!cursorGlow) return;
+  glowTargetX = event.clientX;
+  glowTargetY = event.clientY;
   cursorGlow.style.opacity = '1';
-  cursorGlow.style.left = `${event.clientX}px`;
-  cursorGlow.style.top = `${event.clientY}px`;
+  if (glowRafId === null) {
+    glowRafId = requestAnimationFrame(animateGlow);
+  }
 });
 
 const bookingForm = document.getElementById('bookingForm');
 const bookingMessage = document.getElementById('bookingMessage');
+const bookingModal = document.getElementById('bookingModal');
+const bookingModalClose = document.getElementById('bookingModalClose');
+const bookingSummary = document.getElementById('bookingSummary');
+const bookingCameraField = document.getElementById('bookingCameraField');
+const bookingOspitiField = document.getElementById('bookingOspitiField');
+const bookingArrivoField = document.getElementById('bookingArrivoField');
+const bookingPartenzaField = document.getElementById('bookingPartenzaField');
+const bookingContactForm = document.getElementById('bookingContactForm');
+
+function toggleBookingModal(forceState) {
+  if (!bookingModal) return;
+  const shouldOpen = typeof forceState === 'boolean' ? forceState : !bookingModal.classList.contains('is-open');
+
+  bookingModal.classList.toggle('is-open', shouldOpen);
+  document.body.classList.toggle('menu-open', shouldOpen);
+  bookingModal.setAttribute('aria-hidden', String(!shouldOpen));
+}
 
 bookingForm?.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -94,8 +136,31 @@ bookingForm?.addEventListener('submit', (event) => {
     return;
   }
 
-  bookingMessage.textContent = `Richiesta pronta: ${camera}, ${ospiti}, dal ${formatDate(arrivo)} al ${formatDate(partenza)}. Puoi collegare questo pulsante a email, WhatsApp o booking engine`;
-  bookingForm.reset();
+  bookingMessage.textContent = '';
+
+  const summary = `${camera} · ${ospiti} · dal ${formatDate(arrivo)} al ${formatDate(partenza)}`;
+  if (bookingSummary) bookingSummary.textContent = summary;
+  if (bookingCameraField) bookingCameraField.value = camera;
+  if (bookingOspitiField) bookingOspitiField.value = ospiti;
+  if (bookingArrivoField) bookingArrivoField.value = formatDate(arrivo);
+  if (bookingPartenzaField) bookingPartenzaField.value = formatDate(partenza);
+
+  toggleBookingModal(true);
+});
+
+bookingModalClose?.addEventListener('click', () => toggleBookingModal(false));
+
+bookingModal?.addEventListener('click', (event) => {
+  if (event.target === bookingModal) toggleBookingModal(false);
+});
+
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') toggleBookingModal(false);
+});
+
+bookingContactForm?.addEventListener('submit', () => {
+  const submitButton = bookingContactForm.querySelector('button[type="submit"]');
+  if (submitButton) submitButton.textContent = 'Invio in corso';
 });
 
 function formatDate(dateString) {

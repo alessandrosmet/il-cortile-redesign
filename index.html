@@ -14,6 +14,8 @@
   <div class="cursor-glow" aria-hidden="true"></div>
 
   <header class="site-header" id="top">
+    <a class="book-now-button" href="#prenota">Prenota ora</a>
+
 <a class="floating-logo" href="#top" aria-label="Il Cortile Guest House homepage">
       <span>Il Cortile</span>
       <small>Guest House</small>
@@ -60,8 +62,7 @@
         <h2>Un indirizzo intimo dove il bianco incontra il verde foresta</h2>
         <p>
           Spazi luminosi, dettagli naturali e un'atmosfera silenziosa pensata per chi cerca una pausa comoda,
-          curata e personale. Il nuovo stile del sito valorizza il carattere della struttura con un design semplice,
-          editoriale e facilmente navigabile.
+          curata e personale. Immersa nella Campagna Milanese, a pochi minuti dalla città, Il Cortile Guest House è una casa di campagna raccolta e accogliente, dove il tempo sembra rallentare e ogni dettaglio invita al relax.
         </p>
       </div>
 
@@ -248,8 +249,8 @@
         <p class="eyebrow">Prenota</p>
         <h2>Richiedi disponibilità in pochi secondi</h2>
         <p>
-          Compila il form: riceverai un riepilogo immediato e potrai collegarlo facilmente a WhatsApp,
-          email o a un gestionale di prenotazione
+          Scegli le date e la camera, poi lasciaci i tuoi contatti: ti risponderemo al più presto
+          per confermare la disponibilità
         </p>
       </div>
 
@@ -282,33 +283,51 @@
             <option>Il Silos</option>
           </select>
         </label>
-        <button type="submit">Controlla disponibilità</button>
+        <button type="submit">Richiedi disponibilità</button>
         <p class="form-message" id="bookingMessage" role="status"></p>
       </form>
     </section>
+
+    <div class="modal-overlay" id="bookingModal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+        <button type="button" class="modal-close" id="bookingModalClose" aria-label="Chiudi">&times;</button>
+        <p class="eyebrow">Ultimo passo</p>
+        <h3 id="bookingModalTitle">Lascia i tuoi contatti</h3>
+        <p class="modal-summary" id="bookingSummary"></p>
+
+        <form class="modal-form" id="bookingContactForm" action="https://formsubmit.co/info@ilcortileguesthouse.it" method="POST">
+          <input type="hidden" name="_subject" value="Nuova richiesta di disponibilità - Il Cortile" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+          <label>
+            Nome
+            <input type="text" name="Nome" required />
+          </label>
+          <label>
+            Cognome
+            <input type="text" name="Cognome" required />
+          </label>
+          <label>
+            Telefono
+            <input type="tel" name="Telefono" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="Email" required />
+          </label>
+          <input type="hidden" name="Camera richiesta" id="bookingCameraField" />
+          <input type="hidden" name="Numero ospiti" id="bookingOspitiField" />
+          <input type="hidden" name="Data arrivo" id="bookingArrivoField" />
+          <input type="hidden" name="Data partenza" id="bookingPartenzaField" />
+          <button type="submit">Invia richiesta</button>
+        </form>
+      </div>
+    </div>
 
     <section class="comments section-padding" id="commenti">
       <div class="section-heading section-reveal">
         <p class="eyebrow">Commenti</p>
         <h2>Le parole degli ospiti</h2>
-      </div>
-
-      <div class="comments-grid" id="commentsGrid">
-        <article class="comment-card section-reveal">
-          <div class="stars" aria-label="5 stelle">★★★★★</div>
-          <p>“Una guest house curata, calma e molto elegante. Il cortile è il dettaglio che rende tutto speciale”</p>
-          <span>— Marta, Milano</span>
-        </article>
-        <article class="comment-card section-reveal">
-          <div class="stars" aria-label="5 stelle">★★★★★</div>
-          <p>“Camere pulite, atmosfera intima e design bellissimo. Sembra di entrare in una piccola villa privata”</p>
-          <span>— Luca, Torino</span>
-        </article>
-        <article class="comment-card section-reveal">
-          <div class="stars" aria-label="5 stelle">★★★★★</div>
-          <p>“Posizione comoda, staff gentile e colazione semplice ma perfetta. Torneremo sicuramente”</p>
-          <span>— Sofia, Roma</span>
-        </article>
       </div>
 
       <form class="comment-form section-reveal" id="commentForm" action="https://formsubmit.co/robertadanelli@gmail.com" method="POST">
