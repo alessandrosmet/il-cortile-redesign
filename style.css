@@ -3,6 +3,7 @@
   --forest-2: #1d4a38;
   --forest-soft: #e7eee9;
   --cream: #fbfaf5;
+  --page-bg: #dbe8de;
   --white: #ffffff;
   --muted: #68776f;
   --line: rgba(20, 55, 41, 0.18);
@@ -26,7 +27,7 @@ html {
 
 body {
   min-height: 100vh;
-  background: var(--cream);
+  background: var(--page-bg);
   color: var(--forest);
   font-family: var(--sans);
   overflow-x: hidden;
