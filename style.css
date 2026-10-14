@@ -4,7 +4,7 @@
   --forest-soft: #e7eee9;
   --cream: #fbfaf5;
   --white: #ffffff;
-  --muted: #68776f;
+  --muted: #3f7557;
   --line: rgba(20, 55, 41, 0.18);
   --shadow: 0 24px 70px rgba(20, 55, 41, 0.14);
   --radius-xl: 36px;
@@ -131,8 +131,8 @@ img {
   padding: 0.85rem 1.3rem;
   border: 1px solid var(--forest);
   border-radius: 999px;
-  background: var(--white);
-  color: var(--forest);
+  background: var(--forest);
+  color: var(--white);
   font-family: var(--sans);
   font-size: 0.72rem;
   font-weight: 600;
@@ -143,7 +143,7 @@ img {
 }
 
 .book-now-button:hover {
-  background: var(--forest);
+  background: var(--forest-2);
   color: var(--white);
   transform: translateY(-2px);
 }
@@ -276,10 +276,18 @@ img {
   padding: 0.9rem 1.3rem;
   border: 1px solid var(--forest);
   border-radius: 999px;
+  background: var(--forest);
+  color: var(--white);
   font-family: var(--sans);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.18em;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.menu-panel .menu-book:hover {
+  background: var(--forest-2);
+  color: var(--white);
 }
 
 main {
